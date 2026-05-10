@@ -1,8 +1,7 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
-
 import '../models/quote.dart';
+import '../services/firestore_service.dart';
 import 'favorites.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -14,6 +13,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final Random _random = Random();
+  final FirestoreService _firestoreService = FirestoreService();
 
   late Map<String, String> _currentQuote;
 
@@ -29,10 +29,24 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  void _saveToFavorites() {
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(const SnackBar(content: Text('Quote saved to favorites.')));
+  Future<void> _saveToFavorites() async {
+    try {
+      await _firestoreService.saveFavoriteQuote(_currentQuote);
+
+      if (!mounted) return;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Quote saved to favorites.')),
+      );
+    } catch (error) {
+      if (!mounted) return;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Could not save quote. Please try again.'),
+        ),
+      );
+    }
   }
 
   void _openFavorites() {
