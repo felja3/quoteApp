@@ -1,8 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class FirestoreService {
-  final CollectionReference<Map<String, dynamic>> _favoritesCollection =
-      FirebaseFirestore.instance.collection('favorite_quotes');
+  CollectionReference<Map<String, dynamic>> get _favoritesCollection {
+    final uid = FirebaseAuth.instance.currentUser!.uid;
+
+    return FirebaseFirestore.instance
+        .collection('users')
+        .doc(uid)
+        .collection('favorite_quotes');
+  }
 
   Future<void> saveFavoriteQuote(Map<String, String> quote) async {
     await _favoritesCollection.add({

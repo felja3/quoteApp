@@ -33,7 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
     try {
       await _firestoreService.saveFavoriteQuote(_currentQuote);
 
-      if (!mounted) return;
+      if (!mounted) return; //if not mounted to current screen exit
 
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Quote saved to favorites.')),
@@ -59,7 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Daily Quote'), centerTitle: true),
+      appBar: AppBar(title: const Text('Your Daily Quote'), centerTitle: true),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(20),
@@ -95,7 +95,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: ElevatedButton.icon(
                   onPressed: _getNewQuote,
                   icon: const Icon(Icons.refresh),
-                  label: const Text('New Quote'),
+                  label: const Text('Give me new Quote!'),
                 ),
               ),
               const SizedBox(height: 12),
@@ -104,7 +104,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: FilledButton.icon(
                   onPressed: _saveToFavorites,
                   icon: const Icon(Icons.favorite_border),
-                  label: const Text('Save to favorites'),
+                  label: const Text('Save it!'),
                 ),
               ),
               const SizedBox(height: 12),
@@ -113,7 +113,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: TextButton.icon(
                   onPressed: _openFavorites,
                   icon: const Icon(Icons.list),
-                  label: const Text('View Favorites'),
+                  label: const Text('View my Favorites<3'),
                 ),
               ),
             ],
